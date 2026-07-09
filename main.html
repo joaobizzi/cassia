@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Letícia, minha estrela</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ceu-topo: #2b1f4a;
+    --ceu-meio: #4a3068;
+    --ceu-baixo: #7a4f8f;
+    --rosa: #f6c6d9;
+    --rosa-forte: #e8a4c4;
+    --roxo-claro: #d9c2f0;
+    --roxo: #b795d9;
+    --branco-estrela: #fff7f0;
+    --texto: #3a2a4d;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html, body{
+    height:100%;
+    overflow-x:hidden;
+  }
+
+  body{
+    font-family:'Quicksand', sans-serif;
+    background: linear-gradient(180deg, var(--ceu-topo) 0%, var(--ceu-meio) 45%, var(--ceu-baixo) 75%, var(--rosa) 100%);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    position:relative;
+    color: var(--branco-estrela);
+    padding: 40px 20px 120px;
+  }
+
+  /* ---------- Céu com estrelas ---------- */
+  #ceu{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .estrela{
+    position:absolute;
+    background: var(--branco-estrela);
+    border-radius:50%;
+    box-shadow: 0 0 6px 1px rgba(255,247,240,0.8);
+    animation: piscar 3s ease-in-out infinite;
+  }
+
+  @keyframes piscar{
+    0%, 100%{ opacity:0.25; transform:scale(0.8); }
+    50%{ opacity:1; transform:scale(1.15); }
+  }
+
+  .estrela-cadente{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:transparent;
+    z-index:1;
+  }
+  .estrela-cadente::before{
+    content:'';
+    position:absolute;
+    width:120px;
+    height:2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.95), transparent);
+    transform: rotate(-35deg);
+    right:0;
+    top:0;
+    border-radius: 2px;
+  }
+  .estrela-cadente{
+    animation: cair 6s linear infinite;
+    opacity:0;
+  }
+
+  @keyframes cair{
+    0%{ transform: translate(0,0); opacity:0; }
+    5%{ opacity:1; }
+    20%{ transform: translate(-320px, 220px); opacity:0; }
+    100%{ opacity:0; }
+  }
+
+  /* ---------- Conteúdo ---------- */
+  .conteudo{
+    position:relative;
+    z-index:2;
+    max-width: 680px;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap: 28px;
+  }
+
+  .eyebrow{
+    font-family:'Quicksand', sans-serif;
+    letter-spacing: 4px;
+    text-transform:uppercase;
+    font-size: 0.72rem;
+    color: var(--roxo-claro);
+    opacity:0.85;
+  }
+
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    line-height:1.15;
+    color: var(--branco-estrela);
+    text-shadow: 0 0 18px rgba(232,164,196,0.45);
+  }
+
+  h1 em{
+    font-style:italic;
+    color: var(--rosa-forte);
+  }
+
+  .subtitulo{
+    font-family:'Cormorant Garamond', serif;
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
+    font-style: italic;
+    color: var(--roxo-claro);
+    max-width: 520px;
+    line-height:1.5;
+  }
+
+  /* ---------- Moldura da foto ---------- */
+  .moldura{
+    width: min(300px, 70vw);
+    aspect-ratio: 4/5;
+    border-radius: 18px;
+    padding: 10px;
+    background: linear-gradient(160deg, var(--rosa) 0%, var(--roxo-claro) 100%);
+    box-shadow: 0 20px 45px rgba(43,31,74,0.55), 0 0 0 1px rgba(255,255,255,0.15) inset;
+    position:relative;
+    margin: 10px 0 6px;
+  }
+
+  .moldura::before,
+  .moldura::after{
+    content:'✦';
+    position:absolute;
+    color: var(--branco-estrela);
+    font-size: 1.1rem;
+    opacity:0.9;
+  }
+  .moldura::before{ top:-10px; left:-10px; }
+  .moldura::after{ bottom:-10px; right:-10px; }
+
+  .foto-slot{
+    width:100%;
+    height:100%;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 18px;
+    font-family:'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    color: var(--texto);
+    background-color: #f3e6f2;
+    overflow:hidden;
+  }
+
+  .foto-slot img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius: 12px;
+    display:block;
+  }
+
+  .foto-legenda{
+    color: var(--texto);
+    opacity:0.7;
+    line-height:1.4;
+  }
+
+  /* ---------- Cartão da pergunta ---------- */
+  .cartao{
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 22px;
+    padding: 34px 30px;
+    width:100%;
+    box-shadow: 0 18px 40px rgba(74,48,104,0.35);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 20px;
+    position:relative;
+    border: 1px solid rgba(232,164,196,0.5);
+  }
+
+  .cartao p{
+    font-family:'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3.4vw, 1.7rem);
+    color: var(--texto);
+    line-height:1.4;
+  }
+
+  .cartao p strong{
+    color: var(--roxo);
+  }
+
+  /* área de botões precisa de espaço relativo para o "Não" fugir */
+  .area-botoes{
+    position: relative;
+    width: 100%;
+    min-height: 130px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  button{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size: 1rem;
+    padding: 14px 34px;
+    border-radius: 999px;
+    border:none;
+    cursor:pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    letter-spacing: 0.3px;
+  }
+
+  #btn-sim{
+    background: linear-gradient(135deg, var(--rosa-forte), var(--roxo));
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(183,149,217,0.55);
+  }
+  #btn-sim:hover{
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 14px 30px rgba(183,149,217,0.7);
+  }
+
+  #btn-nao{
+    background: #fff;
+    color: var(--roxo);
+    border: 2px solid var(--roxo-claro);
+    position: relative;
+  }
+  #btn-nao.fugindo{
+    position: absolute;
+  }
+  #btn-nao:hover{
+    background: #f8f1fb;
+  }
+
+  /* ---------- Mensagem final ---------- */
+  .final{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap: 14px;
+    animation: aparecer 0.7s ease forwards;
+  }
+
+  .final.visivel{ display:flex; }
+
+  @keyframes aparecer{
+    from{ opacity:0; transform: translateY(10px) scale(0.98); }
+    to{ opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  .final p{
+    font-family:'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3.6vw, 1.8rem);
+    color: var(--texto);
+    line-height:1.5;
+  }
+
+  .coracoes{
+    font-size: 1.6rem;
+    letter-spacing: 6px;
+  }
+
+  .rodape{
+    position:relative;
+    z-index:2;
+    margin-top: 30px;
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--roxo-claro);
+    opacity:0.8;
+    text-align:center;
+  }
+
+  /* confete simples */
+  .confete{
+    position:fixed;
+    top:-10px;
+    z-index:5;
+    border-radius: 2px;
+    animation: cair-confete linear forwards;
+    pointer-events:none;
+  }
+
+  @keyframes cair-confete{
+    to{
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0.9;
+    }
+  }
+
+  @media (max-width: 480px){
+    .cartao{ padding: 26px 20px; }
+    .area-botoes{ min-height: 150px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .estrela, .estrela-cadente, .final{ animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="ceu"></div>
+
+<div class="conteudo">
+  <p class="eyebrow">uma pequena constelação de palavras para você</p>
+
+  <h1>A gente vê estrelas<br>que já não existem <em>hoje</em>.<br>Sua luz veio do passado.</h1>
+
+  <p class="subtitulo">
+    Mas agora eu olho pro céu e vejo uma estrela diferente:<br>
+    a minha estrela do futuro. Você, Letícia.
+  </p>
+
+  <div class="moldura">
+    <div class="foto-slot">
+      <img src="nos.jpeg" alt="Foto do casal">
+    </div>
+  </div>
+
+  <div class="cartao" id="cartao">
+    <p id="pergunta">Letícia, você <strong>aceita ficar comigo?</strong>?</p>
+
+    <div class="area-botoes" id="area-botoes">
+      <button id="btn-sim">Sim ✨</button>
+      <button id="btn-nao">Não</button>
+    </div>
+
+    <div class="final" id="final">
+      <div class="coracoes">💗 🌙 💜</div>
+      <p>Sabia que você ia dizer sim.<br>Prometo ser, todos os dias, alguém que faz valer a pena olhar pro céu.</p>
+      <p style="font-size:1rem; opacity:0.75;">te amo, minha estrela.</p>
+    </div>
+  </div>
+</div>
+
+<p class="rodape">feito com carinho, olhando pro mesmo céu que você</p>
+
+<script>
+  // ---------- Gerar estrelas no fundo ----------
+  const ceu = document.getElementById('ceu');
+  const totalEstrelas = 90;
+
+  for (let i = 0; i < totalEstrelas; i++){
+    const estrela = document.createElement('div');
+    estrela.className = 'estrela';
+    const tamanho = Math.random() * 2.2 + 1;
+    estrela.style.width = tamanho + 'px';
+    estrela.style.height = tamanho + 'px';
+    estrela.style.left = Math.random() * 100 + 'vw';
+    estrela.style.top = Math.random() * 100 + 'vh';
+    estrela.style.animationDelay = (Math.random() * 3) + 's';
+    estrela.style.animationDuration = (2 + Math.random() * 3) + 's';
+    ceu.appendChild(estrela);
+  }
+
+  // estrelas cadentes ocasionais
+  function criarEstrelaCadente(){
+    const cadente = document.createElement('div');
+    cadente.className = 'estrela-cadente';
+    cadente.style.left = (Math.random() * 80 + 10) + 'vw';
+    cadente.style.top = (Math.random() * 40) + 'vh';
+    cadente.style.animationDuration = (2.5 + Math.random()*2) + 's';
+    ceu.appendChild(cadente);
+    setTimeout(() => cadente.remove(), 5000);
+  }
+  setInterval(criarEstrelaCadente, 3500);
+
+  // ---------- Botão "Não" foge ----------
+  const btnNao = document.getElementById('btn-nao');
+  const areaBotoes = document.getElementById('area-botoes');
+  const cartao = document.getElementById('cartao');
+
+  function moverBotaoNao(){
+    const areaRect = areaBotoes.getBoundingClientRect();
+    const btnRect = btnNao.getBoundingClientRect();
+
+    const margem = 10;
+    const maxX = Math.max(areaRect.width - btnRect.width - margem, margem);
+    const maxY = Math.max(areaRect.height - btnRect.height - margem, margem);
+
+    const novoX = Math.random() * maxX;
+    const novoY = Math.random() * maxY;
+
+    btnNao.classList.add('fugindo');
+    btnNao.style.left = novoX + 'px';
+    btnNao.style.top = novoY + 'px';
+  }
+
+  btnNao.addEventListener('mouseenter', moverBotaoNao);
+  btnNao.addEventListener('click', (e) => {
+    e.preventDefault();
+    moverBotaoNao();
+  });
+  btnNao.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    moverBotaoNao();
+  }, { passive: false });
+
+  // ---------- Botão "Sim" ----------
+  const btnSim = document.getElementById('btn-sim');
+  const finalMsg = document.getElementById('final');
+  const pergunta = document.getElementById('pergunta');
+
+  function criarConfete(){
+    const cores = ['#f6c6d9', '#d9c2f0', '#e8a4c4', '#b795d9', '#fff7f0'];
+    for (let i = 0; i < 60; i++){
+      const c = document.createElement('div');
+      c.className = 'confete';
+      const cor = cores[Math.floor(Math.random() * cores.length)];
+      const tam = Math.random() * 8 + 6;
+      c.style.width = tam + 'px';
+      c.style.height = tam * 0.4 + 'px';
+      c.style.background = cor;
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+
+  btnSim.addEventListener('click', () => {
+    pergunta.style.display = 'none';
+    areaBotoes.style.display = 'none';
+    finalMsg.classList.add('visivel');
+    criarConfete();
+  });
+</script>
+
+</body>
+</html>
