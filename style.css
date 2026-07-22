@@ -1,0 +1,355 @@
+  :root{
+    --ceu-topo: #0f2a4a;
+    --ceu-meio: #1f4d78;
+    --ceu-baixo: #6badd6;
+    --rosa: #ffd6e8;
+    --rosa-forte: #ff9ec7;
+    --roxo-claro: #bfe3ff;
+    --roxo: #6cb7f0;
+    --branco-estrela: #fff9fb;
+    --texto: #1f3a5c;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html, body{
+    height:100%;
+    overflow-x:hidden;
+  }
+
+  body{
+    font-family:'Quicksand', sans-serif;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 15%, rgba(108,183,240,0.25), transparent 70%),
+      radial-gradient(ellipse 60% 35% at 50% 95%, rgba(255,158,199,0.3), transparent 70%),
+      linear-gradient(180deg, var(--ceu-topo) 0%, var(--ceu-meio) 40%, var(--ceu-baixo) 68%, var(--rosa-forte) 88%, var(--rosa) 100%);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    position:relative;
+    color: var(--branco-estrela);
+    padding: 40px 20px 120px;
+  }
+
+  /* ---------- Céu com estrelas ---------- */
+  #ceu{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .estrela{
+    position:absolute;
+    background: var(--branco-estrela);
+    border-radius:50%;
+    box-shadow: 0 0 6px 1px rgba(255,247,240,0.8);
+    animation: piscar 3s ease-in-out infinite;
+  }
+
+  @keyframes piscar{
+    0%, 100%{ opacity:0.25; transform:scale(0.8); }
+    50%{ opacity:1; transform:scale(1.15); }
+  }
+
+  .estrela-cadente{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:transparent;
+    z-index:1;
+  }
+  .estrela-cadente::before{
+    content:'';
+    position:absolute;
+    width:120px;
+    height:2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.95), transparent);
+    transform: rotate(-35deg);
+    right:0;
+    top:0;
+    border-radius: 2px;
+  }
+  .estrela-cadente{
+    animation: cair 6s linear infinite;
+    opacity:0;
+  }
+
+  @keyframes cair{
+    0%{ transform: translate(0,0); opacity:0; }
+    5%{ opacity:1; }
+    20%{ transform: translate(-320px, 220px); opacity:0; }
+    100%{ opacity:0; }
+  }
+
+  /* ---------- Conteúdo ---------- */
+  .conteudo{
+    position:relative;
+    z-index:2;
+    max-width: 680px;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap: 28px;
+  }
+
+  .eyebrow{
+    font-family:'Quicksand', sans-serif;
+    letter-spacing: 4px;
+    text-transform:uppercase;
+    font-size: 0.72rem;
+    color: var(--roxo-claro);
+    opacity:0.85;
+  }
+
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    line-height:1.15;
+    color: var(--branco-estrela);
+    text-shadow: 0 0 22px rgba(255,158,199,0.5), 0 0 40px rgba(108,183,240,0.35);
+  }
+
+  h1 em{
+    font-style:italic;
+    color: var(--rosa-forte);
+  }
+
+  .subtitulo{
+    font-family:'Cormorant Garamond', serif;
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
+    font-style: italic;
+    color: var(--roxo-claro);
+    max-width: 520px;
+    line-height:1.5;
+  }
+
+  /* ---------- Moldura da foto ---------- */
+  .moldura{
+    width: min(300px, 70vw);
+    aspect-ratio: 4/5;
+    border-radius: 18px;
+    padding: 10px;
+    background: linear-gradient(160deg, var(--rosa-forte) 0%, var(--roxo-claro) 100%);
+    box-shadow: 0 20px 45px rgba(15,42,74,0.55), 0 0 0 1px rgba(255,255,255,0.2) inset, 0 0 50px rgba(255,158,199,0.35);
+    position:relative;
+    margin: 10px 0 6px;
+    animation: brilhar-moldura 4s ease-in-out infinite;
+  }
+
+  @keyframes brilhar-moldura{
+    0%, 100%{ box-shadow: 0 20px 45px rgba(15,42,74,0.55), 0 0 0 1px rgba(255,255,255,0.2) inset, 0 0 35px rgba(255,158,199,0.3); }
+    50%{ box-shadow: 0 20px 45px rgba(15,42,74,0.55), 0 0 0 1px rgba(255,255,255,0.2) inset, 0 0 55px rgba(108,183,240,0.45); }
+  }
+
+  .moldura::before,
+  .moldura::after{
+    content:'✦';
+    position:absolute;
+    color: var(--branco-estrela);
+    font-size: 1.1rem;
+    opacity:0.9;
+    text-shadow: 0 0 8px rgba(255,158,199,0.9);
+  }
+  .moldura::before{ top:-10px; left:-10px; }
+  .moldura::after{ bottom:-10px; right:-10px; }
+
+  .foto-slot{
+    width:100%;
+    height:100%;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 18px;
+    font-family:'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    color: var(--texto);
+    background-color: #f3e6f2;
+    overflow:hidden;
+  }
+
+  .foto-slot img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius: 12px;
+    display:block;
+  }
+
+  .foto-legenda{
+    color: var(--texto);
+    opacity:0.7;
+    line-height:1.4;
+  }
+
+  /* ---------- Cartão da pergunta ---------- */
+  .cartao{
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 24px;
+    padding: 34px 30px;
+    width:100%;
+    box-shadow: 0 18px 40px rgba(31,77,120,0.35), 0 0 30px rgba(255,158,199,0.15);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 20px;
+    position:relative;
+    border: 1px solid rgba(255,158,199,0.5);
+  }
+
+  .cartao p{
+    font-family:'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3.4vw, 1.7rem);
+    color: var(--texto);
+    line-height:1.4;
+  }
+
+  .cartao p strong{
+    color: var(--roxo);
+  }
+
+  /* área de botões precisa de espaço relativo para o "Não" fugir */
+  .area-botoes{
+    position: relative;
+    width: 100%;
+    min-height: 130px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  button{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size: 1rem;
+    padding: 14px 34px;
+    border-radius: 999px;
+    border:none;
+    cursor:pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    letter-spacing: 0.3px;
+  }
+
+  #btn-sim{
+    background: linear-gradient(135deg, var(--rosa-forte), var(--roxo));
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(108,183,240,0.5);
+  }
+  #btn-sim:hover{
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 14px 30px rgba(255,158,199,0.65);
+  }
+
+  #btn-nao{
+    background: #fff;
+    color: var(--roxo);
+    border: 2px solid var(--roxo-claro);
+    position: relative;
+  }
+  #btn-nao.fugindo{
+    position: absolute;
+  }
+  #btn-nao:hover{
+    background: #eef8ff;
+  }
+
+  /* ---------- Mensagem final ---------- */
+  .final{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap: 14px;
+    animation: aparecer 0.7s ease forwards;
+  }
+
+  .final.visivel{ display:flex; }
+
+  @keyframes aparecer{
+    from{ opacity:0; transform: translateY(10px) scale(0.98); }
+    to{ opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  .final p{
+    font-family:'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3.6vw, 1.8rem);
+    color: var(--texto);
+    line-height:1.5;
+  }
+
+  .coracoes{
+    font-size: 1.8rem;
+    letter-spacing: 6px;
+    animation: pulsar 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulsar{
+    0%, 100%{ transform: scale(1); }
+    50%{ transform: scale(1.15); }
+  }
+
+  .rodape{
+    position:relative;
+    z-index:2;
+    margin-top: 30px;
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--roxo-claro);
+    opacity:0.8;
+    text-align:center;
+  }
+
+  /* confete simples */
+  .confete{
+    position:fixed;
+    top:-10px;
+    z-index:5;
+    border-radius: 2px;
+    animation: cair-confete linear forwards;
+    pointer-events:none;
+  }
+
+  @keyframes cair-confete{
+    to{
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0.9;
+    }
+  }
+
+  @media (max-width: 480px){
+    .cartao{ padding: 26px 20px; }
+    .area-botoes{ min-height: 150px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .estrela, .estrela-cadente, .final{ animation: none !important; }
+  }
+
+  /* ---------- Elementos de games no fundo ---------- */
+  #games-fundo{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+
+  .game-elemento{
+    position:absolute;
+    opacity: 0.16;
+  }
+
+  @media (max-width: 480px){
+    .game-elemento{ opacity: 0.12; }
+  }
